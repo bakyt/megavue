@@ -25,8 +25,7 @@ class UserResource extends JsonResource
             'post'=>$this->post,
             'readonly'=>$this->readonly,
             'active'=>$this->active,
-            'role'=>$this->roles->first(),
-            'siteRole'=>$this->siteRole,
+            'role'=>$this->role,
             'position'=>$this->position,
             'lastSeen'=>$this->lastSeen
         ];

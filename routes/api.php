@@ -20,23 +20,21 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 //    Route::get('/generate_permissions/{controller}', function (Request $request, $controller) {
 ////        \Spatie\Permission\Models\Role::create(['name'=>'admin', 'guard_name'=>'api']);
-////        $permissions = [];
+//        $permissions = [];
 ////        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller, 'guard_name'=>'api']));
-////        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.index', 'guard_name'=>'api']));
-////        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.create', 'guard_name'=>'api']));
-////        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.edit', 'guard_name'=>'api']));
-////        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.destroy', 'guard_name'=>'api']));
-//        $role = \Spatie\Permission\Models\Role::findByName('admin');
-////        $request->user()->assignRole($role);
-//        $role->givePermissionTo('tool-users.destroy');
+//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.index', 'guard_name'=>'api']));
+//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.create', 'guard_name'=>'api']));
+//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.edit', 'guard_name'=>'api']));
+//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.destroy', 'guard_name'=>'api']));
+//        $role = \Spatie\Permission\Models\Role::findById(1);
+//        $request->user()->assignRole($role);
+//        $role->givePermissionTo($permissions);
 //        return response()->json($role);
 //    });
     Route::get('/home', 'Api\HomeController@index');
     Route::resource('roles', 'Api\RoleController');
     Route::resource('sections', 'Api\SectionController');
     Route::resource('users', 'Api\UserController');
-    Route::resource('tool-users', 'Api\UserController');
-    Route::resource('site-roles', 'Api\SiteRoleController');
     Route::resource('positions', 'Api\PositionController');
 });
 Route::post('/login', 'Api\AuthController@login');

@@ -34,8 +34,8 @@
                             <td>{{ role.city }}</td>
                             <td>{{ role.description }}</td>
                             <td>
-                                <router-link v-if="permissions.indexOf('site-roles.edit') !== -1" :to="{ name:'site-roles.edit', params:{ id:role.id } }" class="btn btn-xs btn-default" title="Редактировать"><i class="fa fa-edit"></i></router-link>
-                                <button v-if="permissions.indexOf('site-roles.destroy') !== -1" @click="removeRole(role.id)" class="btn btn-xs btn-danger" title="Удалить"><i class="fa fa-trash"></i></button>
+                                <router-link v-if="permissions.indexOf('roles.edit') !== -1" :to="{ name:'roles.edit', params:{ id:role.id } }" class="btn btn-xs btn-default" title="Редактировать"><i class="fa fa-edit"></i></router-link>
+                                <button v-if="permissions.indexOf('roles.destroy') !== -1" @click="removeRole(role.id)" class="btn btn-xs btn-danger" title="Удалить"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                         </tbody>
@@ -78,7 +78,7 @@
         methods:{
             fetchRoles(page_url){
                 let vm = this;
-                page_url = page_url || '/api/site-roles?paginate';
+                page_url = page_url || '/api/roles?paginate';
                 axios.get(page_url+'&paginate')
                     .then(res=>{
                         this.roles = res.data.data;
@@ -111,7 +111,7 @@
                         history: false
                     }
                 })).get().on('pnotify.confirm', function(){
-                    axios.delete('/api/site-roles/'+id)
+                    axios.delete('/api/roles/'+id)
                         .then(()=>{
                             new PNotify({
                                 title: 'Успех',

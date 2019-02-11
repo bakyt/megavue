@@ -49,7 +49,7 @@
 
                     <div class="col-sm-10">
                         <select name="role_name" id="site_role" class="form-control">
-                            <option v-for="siteRole in siteRoles" v-bind:key="siteRole.id" :value="siteRole.id" :selected="siteRole.id===user.siteRole.id" >{{ siteRole.description }}</option>
+                            <option v-for="role in roles" v-bind:key="role.id" :value="role.id" :selected="role.id===user.role.id" >{{ role.description }}</option>
                         </select>
                     </div>
                 </div>
@@ -146,8 +146,8 @@
 //                    }
                 },
                 userId:this.$route.params.id,
-                siteRoles:[],
-                siteRole:{
+                roles:[],
+                role:{
                     id:'',
                     roleName:'',
                     role_type:'',
@@ -177,7 +177,6 @@
                         this.user = res.data.user;
                         this.positions = res.data.positions;
                         this.roles = res.data.roles;
-                        this.siteRoles = res.data.siteRoles;
                     })
             },
             updateUser(){

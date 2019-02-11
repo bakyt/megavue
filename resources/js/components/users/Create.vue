@@ -49,7 +49,7 @@
 
                     <div class="col-sm-10">
                         <select name="role_name" id="site_role" class="form-control">
-                            <option v-for="siteRole in siteRoles" v-bind:key="siteRole.id" :value="siteRole.id">{{ siteRole.description }}</option>
+                            <option v-for="role in roles" v-bind:key="role.id" :value="role.id">{{ role.description }}</option>
                         </select>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
             fetchCreate(){
                 axios.get('/api/users/create')
                     .then(res=>{
-                        this.siteRoles = res.data.siteRoles;
+                        this.roles = res.data.roles;
                         this.positions = res.data.positions;
                     })
                     .catch(res=>console.log(res))

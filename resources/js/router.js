@@ -12,12 +12,6 @@ import Error404 from './components/errors/404.vue'
 import Error403 from './components/errors/403.vue'
 import Error500 from './components/errors/500.vue'
 
-import AdminUsers from './components/admin/UsersList.vue'
-import AdminUsersEdit from './components/admin/UsersEdit.vue'
-import AdminRoles from './components/admin/RolesList.vue'
-import AdminRolesEdit from './components/admin/RolesEdit.vue'
-import AdminRolesCreate from './components/admin/RolesCreate.vue'
-
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -88,7 +82,7 @@ const router = new VueRouter({
         // roles list
         {
             path: '/roles',
-            name:'site-roles.index',
+            name:'roles.index',
             component: Roles,
             meta: {
                 breadCrumbs: [
@@ -107,7 +101,7 @@ const router = new VueRouter({
         // roles create
         {
             path: '/roles/create',
-            name:'site-roles.create',
+            name:'roles.create',
             component: RolesCreate,
             meta: {
                 breadCrumbs: [
@@ -126,7 +120,7 @@ const router = new VueRouter({
         // role edit
         {
             path: '/roles/:id/edit',
-            name:'site-roles.edit',
+            name:'roles.edit',
             component: RolesEdit,
             meta: {
                 breadCrumbs: [
@@ -181,117 +175,6 @@ const router = new VueRouter({
                     {
                         text: 'Ошибка 500', // crumb text
                         icon: 'fa fa-close'
-                    }
-                ]
-            }
-        },
-        // settings
-        // settings users
-        {
-            path: '/tools/users',
-            name:'tool-users.index',
-            component: AdminUsers,
-            meta: {
-                breadCrumbs: [
-                    {
-                        to: '/tools',            // hyperlink
-                        text: 'Инструменты', // crumb text
-                        icon: 'fa fa-wrench'
-                    },
-                    {
-                        text: 'Пользователи', // crumb text
-                        icon: 'fa fa-users'
-                    }
-                ]
-            }
-        },
-        // settings edit users
-        {
-            path: '/tools/users/:id/edit',
-            name:'tool-users.edit',
-            component: AdminUsersEdit,
-            meta: {
-                breadCrumbs: [
-                    {
-                        to: '/tools',            // hyperlink
-                        text: 'Инструменты', // crumb text
-                        icon: 'fa fa-wrench'
-                    },
-                    {
-                        to:'/tools/users',
-                        text: 'Пользователи', // crumb text
-                        icon: 'fa fa-users'
-                    },
-                    {
-                        text: 'Редактировать', // crumb text
-                        icon: 'fa fa-edit'
-                    }
-                ]
-            }
-        },
-        // settings edit users
-        {
-            path: '/tools/roles',
-            name:'roles.index',
-            component: AdminRoles,
-            meta: {
-                breadCrumbs: [
-                    {
-                        to: '/tools',            // hyperlink
-                        text: 'Инструменты', // crumb text
-                        icon: 'fa fa-wrench'
-                    },
-                    {
-                        text: 'Роли', // crumb text
-                        icon: 'fa fa-key'
-                    }
-                ]
-            }
-        },
-        // settings edit roles
-        {
-            path: '/tools/roles/:id/edit',
-            name:'roles.edit',
-            component: AdminRolesEdit,
-            meta: {
-                breadCrumbs: [
-                    {
-                        to: '/tools',            // hyperlink
-                        text: 'Инструменты', // crumb text
-                        icon: 'fa fa-wrench'
-                    },
-                    {
-                        to:'/tools/roles',
-                        text: 'Роли', // crumb text
-                        icon: 'fa fa-key'
-                    },
-                    {
-                        text: 'Редактировать', // crumb text
-                        icon: 'fa fa-edit'
-                    }
-                ]
-            }
-        },
-        // settings create roles
-        {
-            path: '/tools/roles/create',
-            name:'roles.create',
-            component: AdminRolesCreate,
-            meta: {
-                breadCrumbs: [
-                    {
-                        to: '/tools',            // hyperlink
-                        text: 'Инструменты', // crumb text
-                        icon: 'fa fa-wrench'
-                    },
-                    {
-                        to:'/tools/roles',
-                        text: 'Роли', // crumb text
-                        icon: 'fa fa-key'
-                    },
-                    {
-                        text: 'Добавить', // crumb text
-                        icon: 'fa fa-plus'
                     }
                 ]
             }

@@ -6,8 +6,7 @@ use App\Http\Resources\RoleResource;
 use App\Section;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Collection;
-use Spatie\Permission\Models\Role;
+use App\Role;
 
 class RoleController extends Controller
 {
@@ -52,12 +51,17 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'=>['required', 'unique:roles']
+            'roleName'=>['required', 'string', 'max:50', 'unique:authRoles'],
+            'role_type'=>['required', 'string', 'max:255'],
+            'description'=>['required', 'string', 'max:50'],
+            'city'=>['required', 'string', 'max:50']
         ]);
         $role = new Role();
-        $role->name = $request->name;
-        $role->display_name = $request->display_name;
-        $role->guard_name = $request->get('guard_name')?$request->get('guard_name'):'api';
+        $role->roleName = $request->roleName;
+        $role->role_type = $request->role_type;
+        $role->description = $request->description;
+        $role->city = $request->city;
+        if($request->get('guard_name')) $role->guard_name=$request->guard_name;
         $role->save();
         if($give_permissions = $request->get('give_permissions')){
             if (is_array($give_permissions)) foreach ($give_permissions as $permission){
@@ -105,12 +109,15 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $this->validate($request, [
-            'name'=>['required', 'unique:roles,name,'.$role->id],
-            'display_name'=>['required']
+            'roleName'=>['required', 'string', 'max:50', 'unique:authRoles,roleName,'.$role->id],
+            'role_type'=>['required', 'string', 'max:255'],
+            'description'=>['required', 'string', 'max:50'],
+            'city'=>['required', 'string', 'max:50']
         ]);
-        $role->name = $request->name;
-        $role->display_name = $request->display_name;
-        $role->guard_name = $request->get('guard_name')?$request->get('guard_name'):'api';
+        $role->roleName = $request->roleName;
+        $role->role_type = $request->role_type;
+        $role->description = $request->description;
+        $role->city = $request->city;
         $role->save();
         if($revoke_permissions = $request->get('revoke_permissions')){
             if (is_array($revoke_permissions)) foreach ($revoke_permissions as $permission){

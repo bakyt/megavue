@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
 use App\Position;
-use App\SiteRole;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,7 +40,6 @@ class UserController extends Controller
     public function create()
     {
         return response()->json([
-            'siteRoles'=>SiteRole::all(),
             'positions'=>Position::all(),
             'roles'=>Role::all()
         ]);
@@ -83,6 +81,9 @@ class UserController extends Controller
         $user->new_password = Hash::make($request->password);
         $user->lastSeen = Carbon::now();
         $user->save();
+        $oldRole = $user->roles()->first();
+        if($oldRole and $request->roleId != $oldRole->id) $user->removeRole($oldRole);
+        if($request->get('roleId')) $user->assignRole(Role::findById($request->get('roleId')));
         return new UserResource($user);
     }
 
@@ -108,7 +109,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         return response()->json([
-            'siteRoles'=>SiteRole::all(),
             'positions'=>Position::all(),
             'roles'=>Role::all(),
             'user'=>new UserResource($user)
@@ -153,11 +153,9 @@ class UserController extends Controller
             $user->new_password = Hash::make($request->password);
         }
         $user->save();
-        if($request->user()->hasPermissionTo('tool-users.edit') and $request->get('role_name')){
-            $oldRole = $user->roles()->first();
-            if($oldRole and $request->role_name != $oldRole->name) $user->removeRole($oldRole);
-            if($request->get('role_name')) $user->assignRole($request->role_name);
-        }
+        $oldRole = $user->roles()->first();
+        if($oldRole and $request->roleId != $oldRole->id) $user->removeRole($oldRole);
+        if($request->get('roleId')) $user->assignRole(Role::findById($request->get('roleId')));
         return new UserResource($user);
     }
 
@@ -170,6 +168,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $user->removeRole($user->roles()->first());
         $user->delete();
         return new UserResource($user);
     }

@@ -44,8 +44,8 @@ class User extends Authenticatable
         return $this->new_password;
     }
     public $timestamps = false;
-    public function siteRole(){
-        return $this->belongsTo('App\SiteRole', 'roleId');
+    public function role(){
+        return $this->belongsTo('Spatie\Permission\Models\Role', 'roleId');
     }
     public function position(){
         return $this->belongsTo('App\Position', 'post');

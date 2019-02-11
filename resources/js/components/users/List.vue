@@ -31,7 +31,7 @@
                         <tr v-for="user in users" v-bind:key="user.id">
                             <td>{{ user.id }}</td>
                             <td>{{ user.sname }} {{ user.name }} {{ user.fname }}</td>
-                            <td><span v-if="Boolean(user.siteRole)">{{ user.siteRole.description }}</span></td>
+                            <td><span v-if="Boolean(user.role)">{{ user.role.description }}</span></td>
                             <td>{{ user.username }}</td>
                             <td>{{ user.position?user.position.name:'' }}</td>
                             <td>{{ user.lastSeen }}</td>
