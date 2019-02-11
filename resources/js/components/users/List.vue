@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
+                <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-users"></i></h3>
 
                     <div class="box-tools">
@@ -36,6 +36,7 @@
                             <td>{{ user.position?user.position.name:'' }}</td>
                             <td>{{ user.lastSeen }}</td>
                             <td>
+                                <router-link v-if="permissions.indexOf('users.index') !== -1" :to="{ name:'users.view', params:{ id:user.id } }" class="btn btn-xs btn-default" title="Просмотреть"><i class="fa fa-eye"></i></router-link>
                                 <router-link v-if="permissions.indexOf('users.edit') !== -1" :to="{ name:'users.edit', params:{ id:user.id } }" class="btn btn-xs btn-default" title="Редактировать"><i class="fa fa-edit"></i></router-link>
                                 <button v-if="permissions.indexOf('users.destroy') !== -1" @click="removeUser(user.id)" class="btn btn-xs btn-danger" title="Удалить"><i class="fa fa-trash"></i></button>
                             </td>
@@ -45,9 +46,9 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <ul class="pagination pull-right" style="margin:0">
-                        <li :class="'page-item'+(!pagination.prev_page_url?' disabled':'')"><a @click="fetchUsers(pagination.prev_page_url)" class="page-link" href="#">Previous</a></li>
+                        <li :class="'page-item'+(!pagination.prev_page_url?' disabled':'')"><a @click="fetchUsers(pagination.prev_page_url)" class="page-link" href="#"><i class="fa fa-angle-double-left" title="Предыдущая"></i></a></li>
                         <li class="page-item disabled"><a class="page-link">страница {{ pagination.current_page }} из {{ pagination.last_page }}</a></li>
-                        <li :class="'page-item'+(!pagination.next_page_url?' disabled':'')"><a @click="fetchUsers(pagination.next_page_url)" class="page-link" href="#">Next</a></li>
+                        <li :class="'page-item'+(!pagination.next_page_url?' disabled':'')"><a @click="fetchUsers(pagination.next_page_url)" class="page-link" href="#"><i class="fa fa-angle-double-right" title="Следующая"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -70,7 +71,7 @@
                     post:'',
                     email:'',
                     lastSeen:'',
-                    siteRole:{
+                    role:{
                         id:'',
                         roleName:'',
                         role_type:'',
@@ -84,12 +85,6 @@
                         name:'',
                         description:''
                     }
-//                    role:{
-//                        id:'',
-//                        name:'',
-//                        display_name:'',
-//                        guard_name:''
-//                    }
                 },
                 pagination:{},
                 permissions:window.permissions

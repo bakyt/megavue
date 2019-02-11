@@ -1,6 +1,5 @@
 <?php
 
-use App\User;
 use Illuminate\Http\Request;
 
 /*
@@ -32,6 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 //        return response()->json($role);
 //    });
     Route::get('/home', 'Api\HomeController@index');
+    Route::get('/sign-ins/{id}', 'Api\AuthController@signIns');
     Route::resource('roles', 'Api\RoleController');
     Route::resource('sections', 'Api\SectionController');
     Route::resource('users', 'Api\UserController');

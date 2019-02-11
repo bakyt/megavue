@@ -4,6 +4,8 @@ import Home from './components/Home.vue'
 import Users from './components/users/List.vue'
 import UsersEdit from './components/users/Edit.vue'
 import UsersCreate from './components/users/Create.vue'
+import UsersView from './components/users/View.vue'
+
 import Roles from './components/roles/List.vue'
 import RolesCreate from './components/roles/Create.vue'
 import RolesEdit from './components/roles/Edit.vue'
@@ -75,6 +77,25 @@ const router = new VueRouter({
                     {
                         text: 'Редактировать', // crumb text
                         icon: 'fa fa-edit'
+                    }
+                ]
+            }
+        },
+        // user view
+        {
+            path: '/users/:id',
+            name:'users.view',
+            component: UsersView,
+            meta: {
+                breadCrumbs: [
+                    {
+                        to: '/users',            // hyperlink
+                        text: 'Пользователи', // crumb text
+                        icon: 'fa fa-users'
+                    },
+                    {
+                        text: 'Просмотр', // crumb text
+                        icon: 'fa fa-user'
                     }
                 ]
             }

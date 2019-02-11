@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\UserProfileResource;
 use App\Http\Resources\UserResource;
 use App\Position;
 use App\User;
@@ -91,12 +92,12 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param \App\User $user
-     * @return UserResource
+     * @return UserProfileResource
      * @internal param int $id
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return new UserProfileResource($user);
     }
 
     /**
@@ -168,7 +169,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->removeRole($user->roles()->first());
         $user->delete();
         return new UserResource($user);
     }

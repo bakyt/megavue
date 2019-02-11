@@ -44,9 +44,9 @@
                 <!-- /.box-body -->
                 <div class="box-footer">
                     <ul class="pagination pull-right" style="margin:0">
-                        <li :class="'page-item'+(!pagination.prev_page_url?' disabled':'')"><a @click="fetchRoles(pagination.prev_page_url)" class="page-link" href="#">Previous</a></li>
+                        <li :class="'page-item'+(!pagination.prev_page_url?' disabled':'')"><a @click="fetchRoles(pagination.prev_page_url)" class="page-link" href="#"><i class="fa fa-angle-double-left" title="Предыдущая"></i></a></li>
                         <li class="page-item disabled"><a class="page-link">страница {{ pagination.current_page }} из {{ pagination.last_page }}</a></li>
-                        <li :class="'page-item'+(!pagination.next_page_url?' disabled':'')"><a @click="fetchRoles(pagination.next_page_url)" class="page-link" href="#">Next</a></li>
+                        <li :class="'page-item'+(!pagination.next_page_url?' disabled':'')"><a @click="fetchRoles(pagination.next_page_url)" class="page-link" href="#"><i class="fa fa-angle-double-right" title="Следующая"></i></a></li>
                     </ul>
                 </div>
             </div>
