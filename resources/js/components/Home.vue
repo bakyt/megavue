@@ -1,43 +1,50 @@
 <template>
-    <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-yellow">
-                <div class="inner">
-                    <h3>{{ users }}</h3>
-
-                    <p>Регистрация пользователей</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a style="cursor: pointer" @click="routeTo('users.index')" class="small-box-footer">Подробнее <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
+    <div class="home-page">
+        <banner/>
+        <stores/>
+        <!--<deals/>-->
+        <!--<popular-categories/>-->
+        <!--<banner2/>-->
+        <!--<arrivals/>-->
+        <!--<best-sellers/>-->
+        <!--<adverts/>-->
+        <!--<trends/>-->
+        <!--<reviews/>-->
+        <!--<recently-viewed/>-->
+        <!--<brands/>-->
+        <newsletter/>
     </div>
 </template>
 
 <script>
+    import Banner from './home/Banner.vue'
+    import Stores from './home/Stores.vue'
+//    import Deals from './home/Deals.vue'
+//    import PopularCategories from './home/PopularCategories.vue'
+//    import Banner2 from './home/Banner2.vue'
+//    import Arrivals from './home/Arrivals.vue'
+//    import BestSellers from './home/BestSellers.vue'
+//    import Adverts from './home/Adverts.vue'
+//    import Trends from './home/Trends.vue'
+//    import Reviews from './home/Reviews.vue'
+//    import RecentlyViewed from './home/RecentlyViewed.vue'
+//    import Brands from './home/Brands.vue'
+    import Newsletter from './home/Newsletter.vue'
     export default {
-        data(){
-            return {
-                users:''
-            }
-        },
-        created(){
-            this.fetchHome();
-        },
-
-        methods:{
-            fetchHome(){
-                axios.get('/api/home')
-                    .then(res=>{
-                        this.users = res.data.users;
-                    })
-            },
-            routeTo(name){
-                this.$router.push({ name:name })
-            }
+        components: {
+            banner: Banner,
+            stores: Stores,
+//            deals: Deals,
+//            "popular-categories": PopularCategories,
+//            banner2: Banner2,
+//            arrivals: Arrivals,
+//            "best-sellers": BestSellers,
+//            adverts: Adverts,
+//            trends: Trends,
+//            reviews: Reviews,
+//            "recently-viewed": RecentlyViewed,
+//            brands: Brands,
+            newsletter: Newsletter
         }
     }
 </script>

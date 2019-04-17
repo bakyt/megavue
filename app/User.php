@@ -10,44 +10,23 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    protected $table='authUsers';
     use Notifiable, HasApiTokens, HasRoles;
 
     public function findForPassport($username) {
-        return $this->where('username', $username)->first();
+        return $this->where('phone', $username)->first();
     }
-    protected $guard_name='api';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'fname', 'username', 'password', 'new_password',
-    ];
 
+    protected $guard_name = 'api';
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'new_password'
+        'password'
     ];
-    /**
-     * Get the password for the user.
-     *
-     * @return string
-     */
-    public function getAuthPassword()
-    {
-        return $this->new_password;
-    }
-    public $timestamps = false;
-    public function role(){
-        return $this->belongsTo('Spatie\Permission\Models\Role', 'roleId');
-    }
-    public function position(){
-        return $this->belongsTo('App\Position', 'post');
+
+    public function stores(){
+        return $this->belongsToMany('App\Store', 'user_store');
     }
 }

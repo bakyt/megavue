@@ -1,19 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from './components/Home.vue'
-import Users from './components/users/List.vue'
-import UsersEdit from './components/users/Edit.vue'
-import UsersCreate from './components/users/Create.vue'
-import UsersView from './components/users/View.vue'
+import Register from './components/authentication/Register.vue'
+import Login from './components/authentication/Login.vue'
+import ResetPassword from './components/authentication/ResetPassword.vue'
 
-import Roles from './components/roles/List.vue'
-import RolesCreate from './components/roles/Create.vue'
-import RolesEdit from './components/roles/Edit.vue'
+import Sections from './components/sections/Browse.vue'
+import Category from './components/categories/Browse.vue'
+import Product from './components/products/View.vue'
+
+import Stores from './components/stores/Browse.vue'
+import StoreCreate from './components/stores/Create.vue'
+import StoreEdit from './components/stores/Edit.vue'
+import StoreView from './components/stores/View.vue'
+
+import Cart from './components/cart/View.vue'
+import Wishlist from './components/cart/Wishlist.vue'
+import Search from './components/search/View.vue'
 
 import Error404 from './components/errors/404.vue'
 import Error403 from './components/errors/403.vue'
 import Error500 from './components/errors/500.vue'
-
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -22,145 +29,96 @@ const router = new VueRouter({
         {
             path: '/',
             name:'home',
-            component: Home
-        },
-        // users list
-        {
-            path: '/users',
-            name:'users.index',
-            component: Users,
+            component: Home,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/users',            // hyperlink
-                        text: 'Пользователи', // crumb text
-                        icon: 'fa fa-users'
-                    },
-                    {
-                        text: 'Обзор', // crumb text
-                        icon: 'fa fa-eye'
-                    }
-                ]
+                breadCrumbs: []
             }
         },
-        // user create
+        // search
         {
-            path: '/users/create',
-            name:'users.create',
-            component: UsersCreate,
+            path: '/_search',
+            name:'search',
+            component: Search,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/users',            // hyperlink
-                        text: 'Пользователи', // crumb text
-                        icon: 'fa fa-users'
-                    },
-                    {
-                        text: 'Добавить', // crumb text
-                        icon: 'fa fa-user-plus'
-                    }
-                ]
+                breadCrumbs: []
             }
         },
-        // user edit
+        //Register
         {
-            path: '/users/:id/edit',
-            name:'users.edit',
-            component: UsersEdit,
+            path: '/_register',
+            name:'register',
+            component: Register,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/users',            // hyperlink
-                        text: 'Пользователи', // crumb text
-                        icon: 'fa fa-users'
-                    },
-                    {
-                        text: 'Редактировать', // crumb text
-                        icon: 'fa fa-edit'
-                    }
-                ]
+                breadCrumbs: []
             }
         },
-        // user view
+        //Login
         {
-            path: '/users/:id',
-            name:'users.view',
-            component: UsersView,
+            path: '/_login',
+            name:'login',
+            component: Login,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/users',            // hyperlink
-                        text: 'Пользователи', // crumb text
-                        icon: 'fa fa-users'
-                    },
-                    {
-                        text: 'Просмотр', // crumb text
-                        icon: 'fa fa-user'
-                    }
-                ]
+                breadCrumbs: []
             }
         },
-        // roles list
+        //Reset password
         {
-            path: '/roles',
-            name:'roles.index',
-            component: Roles,
+            path: '/_reset-password',
+            name:'password-reset',
+            component: ResetPassword,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/roles',            // hyperlink
-                        text: 'Роли', // crumb text
-                        icon: 'fa fa-key'
-                    },
-                    {
-                        text: 'Обзор', // crumb text
-                        icon: 'fa fa-eye'
-                    }
-                ]
+                breadCrumbs: []
             }
         },
-        // roles create
+        // view sections list
         {
-            path: '/roles/create',
-            name:'roles.create',
-            component: RolesCreate,
+            path: '/_sections/:id',
+            name:'sections',
+            component: Sections,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/roles',            // hyperlink
-                        text: 'Роли', // crumb text
-                        icon: 'fa fa-key'
-                    },
-                    {
-                        text: 'Добавить', // crumb text
-                        icon: 'fa fa-plus'
-                    }
-                ]
+                breadCrumbs: []
             }
         },
-        // role edit
+        // view products list
         {
-            path: '/roles/:id/edit',
-            name:'roles.edit',
-            component: RolesEdit,
+            path: '/_categories/:id',
+            name:'categories',
+            component: Category,
             meta: {
-                breadCrumbs: [
-                    {
-                        to: '/roles',            // hyperlink
-                        text: 'Роли', // crumb text
-                        icon: 'fa fa-key'
-                    },
-                    {
-                        text: 'Редактировать', // crumb text
-                        icon: 'fa fa-edit'
-                    }
-                ]
+                breadCrumbs: []
+            }
+        },
+        // view products list
+        {
+            path: '/_products/:id',
+            name:'products.view',
+            component: Product,
+            meta: {
+                breadCrumbs: []
+            }
+        },
+        // cart view
+        {
+            path: '/_cart',
+            name:'cart.view',
+            component: Cart,
+            meta: {
+                breadCrumbs: []
+            }
+        },
+        // wishlist view
+        {
+            path: '/_wishlist',
+            name:'wishlist',
+            component: Wishlist,
+            meta: {
+                breadCrumbs: []
             }
         },
         // Here starts error pages
         // error 403
         {
-            path: '/403',
+            path: '/_403',
             name:'403',
             component: Error403,
             meta: {
@@ -174,7 +132,7 @@ const router = new VueRouter({
         },
         // error 404
         {
-            path: '/404',
+            path: '/_404',
             name:'404',
             component: Error404,
             meta: {
@@ -188,7 +146,7 @@ const router = new VueRouter({
         },
         // error 500
         {
-            path: '/500',
+            path: '/_500',
             name:'500',
             component: Error500,
             meta: {
@@ -201,18 +159,51 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/_stores',
+            name:'stores',
+            component: Stores,
+            meta: {
+                breadCrumbs: []
+            }
+        },
+        {
+            path: '/_stores/create',
+            name:'stores.create',
+            component: StoreCreate,
+            meta: {
+                breadCrumbs: []
+            }
+        },
+        {
+            path: "/:slug/edit",
+            name:'stores.edit',
+            component: StoreEdit,
+            meta: {
+                breadCrumbs: []
+            }
+        },
+        {
+            path: "/:slug",
+            name:'stores.view',
+            component: StoreView,
+            meta: {
+                breadCrumbs: []
+            }
+        },
+        {
             path: "*",
             component: Error404,
             meta: {
-                breadCrumbs: [
-                    {
-                        text: 'Страница не найдена', // crumb text
-                        icon: 'fa fa-error'
-                    }
-                ]
+                breadCrumbs: []
             }
         }
     ]
 });
-
+router.afterEach((to, from) => {
+    if(from.name !== to.name) {
+        $('html, body').animate({
+            scrollTop: $("#app").offset().top
+        }, 1000);
+    }
+});
 export default router

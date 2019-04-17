@@ -2,35 +2,15 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-default">
-                <div class="box-body">
+                <div class="box-body form-horizontal">
                     <div class="form-group">
-                        <label for="roleName" class="col-sm-2 control-label">Название</label>
+                        <label for="name" class="col-sm-2 control-label">Название</label>
 
                         <div class="col-sm-10">
-                            <input name="roleName" type="text" class="form-control" id="roleName" placeholder="Название">
+                            <input name="name" type="text" class="form-control" id="name" placeholder="Название">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="role_type" class="col-sm-2 control-label">Тип</label>
 
-                        <div class="col-sm-10">
-                            <input name="role_type" type="text" class="form-control" id="role_type" placeholder="Тип">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="city" class="col-sm-2 control-label">Город</label>
-
-                        <div class="col-sm-10">
-                            <input name="city" type="text" class="form-control" id="city" placeholder="Город">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="description" class="col-sm-2 control-label">Описание</label>
-
-                        <div class="col-sm-10">
-                            <input name="description" type="text" class="form-control" id="description" placeholder="Описание">
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="box box-solid">
@@ -69,10 +49,7 @@
             return {
                 role:{
                     id:'',
-                    roleName:'',
-                    role_type:'',
-                    description:'',
-                    city:''
+                    name:''
                 },
                 sections:[],
                 section:{
@@ -105,10 +82,7 @@
                     if(this.checked) givePermissions.push(this.name);
                 });
                 let object = {
-                    roleName:document.getElementById('roleName').value,
-                    role_type:document.getElementById('role_type').value,
-                    description:document.getElementById('description').value,
-                    city:document.getElementById('city').value,
+                    name:document.getElementById('name').value,
                     give_permissions:givePermissions
                 };
                 axios.post('/api/roles', object)

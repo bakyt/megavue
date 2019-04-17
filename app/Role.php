@@ -7,5 +7,5 @@ use Spatie\Permission\Models\Role as ParentRole;
 
 class Role extends ParentRole
 {
-    public $timestamps = false;
+    //
 }

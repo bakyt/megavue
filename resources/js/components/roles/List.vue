@@ -22,17 +22,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Название</th>
-                            <th>Тип</th>
-                            <th>Город</th>
-                            <th>Описание</th>
                             <th>Действия</th>
                         </tr>
                         <tr v-for="role in roles" v-bind:key="role.id">
                             <td>{{ role.id }}</td>
-                            <td>{{ role.roleName }}</td>
-                            <td>{{ role.role_type }}</td>
-                            <td>{{ role.city }}</td>
-                            <td>{{ role.description }}</td>
+                            <td>{{ role.name }}</td>
                             <td>
                                 <router-link v-if="permissions.indexOf('roles.edit') !== -1" :to="{ name:'roles.edit', params:{ id:role.id } }" class="btn btn-xs btn-default" title="Редактировать"><i class="fa fa-edit"></i></router-link>
                                 <button v-if="permissions.indexOf('roles.destroy') !== -1" @click="removeRole(role.id)" class="btn btn-xs btn-danger" title="Удалить"><i class="fa fa-trash"></i></button>
@@ -61,10 +55,7 @@
                 roles:[],
                 role:{
                     id:'',
-                    roleName:'',
-                    role_type:'',
-                    description:'',
-                    city:''
+                    name:''
                 },
                 pagination:{},
                 permissions:window.permissions

@@ -12,29 +12,22 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
 
-//    Route::get('/generate_permissions/{controller}', function (Request $request, $controller) {
-////        \Spatie\Permission\Models\Role::create(['name'=>'admin', 'guard_name'=>'api']);
-//        $permissions = [];
-////        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller, 'guard_name'=>'api']));
-//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.index', 'guard_name'=>'api']));
-//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.create', 'guard_name'=>'api']));
-//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.edit', 'guard_name'=>'api']));
-//        array_push($permissions, \Spatie\Permission\Models\Permission::create(['name'=>$controller.'.destroy', 'guard_name'=>'api']));
-//        $role = \Spatie\Permission\Models\Role::findById(1);
-//        $request->user()->assignRole($role);
-//        $role->givePermissionTo($permissions);
-//        return response()->json($role);
-//    });
+Route::group(['middleware' => ['localization', 'throttle:60,1']], function () {
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get('/user', function (Request $request) {
+            return new \App\Http\Resources\UserCurrentResource($request->user());
+        });
+        Route::resource('roles', 'Api\RoleController');
+        Route::resource('orders', 'Api\OrderController');
+    });
     Route::get('/home', 'Api\HomeController@index');
-    Route::get('/sign-ins/{id}', 'Api\AuthController@signIns');
-    Route::resource('roles', 'Api\RoleController');
+    Route::resource('products', 'Api\ProductController');
     Route::resource('sections', 'Api\SectionController');
+    Route::resource('categories', 'Api\CategoryController');
+    Route::resource('stores', 'Api\StoreController');
+    Route::resource('store_types', 'Api\StoreTypeController');
     Route::resource('users', 'Api\UserController');
-    Route::resource('positions', 'Api\PositionController');
+    Route::post('/login', 'Api\AuthController@login');
+    Route::put('/reset-password', 'Api\AuthController@resetPassword');
 });
-Route::post('/login', 'Api\AuthController@login');

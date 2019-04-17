@@ -108,6 +108,12 @@ return [
 
     'faker_locale' => 'en_US',
 
+    // Pagination settings
+    'paginate' => [
+        'products' => 20,
+        'stores' => 20,
+        'orders' => 15
+    ],
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -224,7 +230,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
 
 ];

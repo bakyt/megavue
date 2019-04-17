@@ -17,9 +17,10 @@ class CreateSectionItemsTable extends Migration
             $table->increments('id');
             $table->integer('section_id')->nullable()->unsigned()->default(null);
             $table->foreign('section_id')->references('id')->on('sections')->onUpdate('cascade')->onDelete('set null');
+            $table->string('name');
             $table->string('route');
-            $table->string('link');
             $table->string('icon')->nullable()->default(null);
+            $table->boolean('hidden')->default(false);
             $table->timestamps();
         });
     }

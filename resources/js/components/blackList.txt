@@ -1,0 +1,8 @@
+<li class="hassubs" v-for="children in section.children" v-bind:key="children.id">
+                <a :title="children.name[$language]" href="#">{{ children.name[$language] }}<i class="fas fa-chevron-right"></i></a>
+                <ul v-if="children.categories">
+                    <li class="hassubs" v-for="category in children.categories" v-bind:key="category.id">
+                        <a :title="category.name[$language]" href="#">{{ category.name[$language] }}</a>
+                    </li>
+                </ul>
+            </li>

@@ -23,20 +23,15 @@
                             <th>ID</th>
                             <th>ФИО</th>
                             <th>Роль</th>
-                            <th>Логин</th>
-                            <th>Должность</th>
-                            <th>Дата последней активности</th>
+                            <th>E-Mail</th>
                             <th>Действия</th>
                         </tr>
                         <tr v-for="user in users" v-bind:key="user.id">
                             <td>{{ user.id }}</td>
-                            <td>{{ user.sname }} {{ user.name }} {{ user.fname }}</td>
-                            <td><span v-if="Boolean(user.role)">{{ user.role.description }}</span></td>
-                            <td>{{ user.username }}</td>
-                            <td>{{ user.position?user.position.name:'' }}</td>
-                            <td>{{ user.lastSeen }}</td>
+                            <td>{{ user.name }}</td>
+                            <td><span v-if="Boolean(user.role)">{{ user.role.name }}</span></td>
+                            <td>{{ user.email }}</td>
                             <td>
-                                <router-link v-if="permissions.indexOf('users.index') !== -1" :to="{ name:'users.view', params:{ id:user.id } }" class="btn btn-xs btn-default" title="Просмотреть"><i class="fa fa-eye"></i></router-link>
                                 <router-link v-if="permissions.indexOf('users.edit') !== -1" :to="{ name:'users.edit', params:{ id:user.id } }" class="btn btn-xs btn-default" title="Редактировать"><i class="fa fa-edit"></i></router-link>
                                 <button v-if="permissions.indexOf('users.destroy') !== -1" @click="removeUser(user.id)" class="btn btn-xs btn-danger" title="Удалить"><i class="fa fa-trash"></i></button>
                             </td>
@@ -63,27 +58,11 @@
                 users:[],
                 user:{
                     id:'',
-                    pin:'',
                     name:'',
-                    sname:'',
-                    fname:'',
-                    username:'',
-                    post:'',
                     email:'',
-                    lastSeen:'',
                     role:{
                         id:'',
-                        roleName:'',
-                        role_type:'',
-                        description:'',
-                        city:''
-                    },
-                    position:{
-                        id:'',
-                        hb_id:'',
-                        type:'',
-                        name:'',
-                        description:''
+                        name:''
                     }
                 },
                 pagination:{},

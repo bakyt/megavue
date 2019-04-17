@@ -16,18 +16,13 @@ class UserResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'pin'=>$this->pin,
             'name'=>$this->name,
-            'sname'=>$this->sname,
-            'fname'=>$this->fname,
-            'username'=>$this->username,
-            'email'=>$this->email,
-            'post'=>$this->post,
-            'readonly'=>$this->readonly,
-            'active'=>$this->active,
-            'role'=>$this->role,
-            'position'=>$this->position,
-            'lastSeen'=>$this->lastSeen
-        ];
+            'avatar'=>$this->avatar,
+            'phone_code'=>$this->phone_code,
+            'phone'=>$this->phone,
+            'birth_date'=>$this->birth_date,
+            'gender'=>$this->gender,
+            'role'=>$this->roles->first()
+            ];
     }
 }

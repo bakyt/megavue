@@ -7,6 +7,7 @@ use App\Section;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -21,14 +22,11 @@ class RoleController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index()
     {
-        if($request->has('paginate')) return RoleResource::collection(Role::paginate(10));
-        return response()->json(Role::all());
+        return RoleResource::collection(Role::paginate(10));
     }
 
     /**
@@ -51,20 +49,16 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'roleName'=>['required', 'string', 'max:50', 'unique:authRoles'],
-            'role_type'=>['required', 'string', 'max:255'],
-            'description'=>['required', 'string', 'max:50'],
-            'city'=>['required', 'string', 'max:50']
+            'name'=>['required', 'string', 'max:50', 'unique:roles'],
         ]);
         $role = new Role();
-        $role->roleName = $request->roleName;
-        $role->role_type = $request->role_type;
-        $role->description = $request->description;
-        $role->city = $request->city;
+        $role->name = $request->name;
         if($request->get('guard_name')) $role->guard_name=$request->guard_name;
         $role->save();
         if($give_permissions = $request->get('give_permissions')){
             if (is_array($give_permissions)) foreach ($give_permissions as $permission){
+                if(!Permission::where('name', '=', $permission)->first())
+                    $permission = Permission::create(['name'=>$permission, 'guard_name'=>'api']);
                 $role->givePermissionTo($permission);
             }
         }
@@ -109,23 +103,22 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $this->validate($request, [
-            'roleName'=>['required', 'string', 'max:50', 'unique:authRoles,roleName,'.$role->id],
-            'role_type'=>['required', 'string', 'max:255'],
-            'description'=>['required', 'string', 'max:50'],
-            'city'=>['required', 'string', 'max:50']
+            'name'=>['required', 'string', 'max:50', 'unique:roles,name,'.$role->id],
         ]);
-        $role->roleName = $request->roleName;
-        $role->role_type = $request->role_type;
-        $role->description = $request->description;
-        $role->city = $request->city;
+        $role->name = $request->name;
+        if($request->get('guard_name')) $role->guard_name=$request->guard_name;
         $role->save();
         if($revoke_permissions = $request->get('revoke_permissions')){
             if (is_array($revoke_permissions)) foreach ($revoke_permissions as $permission){
+                if(!Permission::where('name', '=', $permission)->first())
+                    $permission = Permission::create(['name'=>$permission, 'guard_name'=>'api']);
                 $role->revokePermissionTo($permission);
             }
         }
         if($give_permissions = $request->get('give_permissions')){
             if (is_array($give_permissions)) foreach ($give_permissions as $permission){
+                if(!Permission::where('name', '=', $permission)->first())
+                    $permission = Permission::create(['name'=>$permission, 'guard_name'=>'api']);
                 $role->givePermissionTo($permission);
             }
         }

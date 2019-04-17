@@ -2,73 +2,76 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\LoginResource;
-use App\Logs\Login;
+use App\Http\Resources\StoreResource;
+use App\Http\Resources\UserResource;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Traits\PassportToken;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use PassportToken;
     public function login(Request $request){
-        $loginLog = new Login();
-        $user = User::where('username', '=', $request->username)->first();
-        if($user) {
-            if (md5($request->password) == $user->password) {
-                $loginLog->user_id = $user->id;
-                $loginLog->name = $request->username;
-                $loginLog->state = 'success';
-                $loginLog->time = Carbon::now();
-                $loginLog->ip = $request->ip();
-                $loginLog->save();
-                if (!$user->getAllPermissions()) return array(
-                    'message' => 'У вас нет прав',
-                    'status' => false
-                );
-                $user->lastSeen = Carbon::now();
-                $user->save();
-                return response()->json(array(
-                        'message' => 'Вход выполнен успешно',
-                        'status' => true,
-                        'permissions' => $user->getAllPermissions()->pluck('name')
-                    ) + $this->getBearerTokenByUser($user, 2, false));
-            }
-            else {
-                $loginLog->user_id = $user->id;
-                $loginLog->name = $request->username;
-                $loginLog->state = 'bad-password';
-                $loginLog->time = Carbon::now();
-                $loginLog->ip = $request->ip();
-                $loginLog->save();
-            }
-        }
-        else {
-            $loginLog->name = $request->username;
-            $loginLog->state = 'no-member';
-            $loginLog->time = Carbon::now();
-            $loginLog->ip = $request->ip();
-            $loginLog->save();
-        }
-        return response()->json(array(
-            'message' => 'Ваши учетные данные неверны. Пожалуйста, попробуйте еще раз',
-            'status' => false,
-            "token_type" => "",
-            "expires_in" => 0,
-            "access_token" => "",
-            "refresh_token" => ""
-        ), 200);
-    }
 
-    /**
-     * For getting login history
-     * param userId
-     * @param $id
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function signIns($id){
-        return LoginResource::collection(Login::where('user_id', '=', $id)->orderByDesc('time')->paginate(10));
+        $http = new \GuzzleHttp\Client;
+        try {
+            $response = $http->post($request->root() . '/oauth/token', [
+                'form_params' => [
+                    'grant_type' => 'password',
+                    'client_id' => 2,
+                    'client_secret' => 'CgH64RUT176hh3Cs3MKNvf3HmPiK8kIThNlLuye0',
+                    'username' => $request->phone,
+                    'password' => $request->password
+                ],
+            ]);
+        } catch (\GuzzleHttp\Exception\BadResponseException $e){
+            if($request->expectsJson()) {
+                if ($e->getCode() == 400) return response()->json(array(
+                    'message' => __('auth.bad_request'),
+                    'status' => false,
+                    "token_type" => "",
+                    "expires_in" => 0,
+                    "access_token" => "",
+                    "refresh_token" => ""
+                ), 200);
+                elseif ($e->getCode() == 401) return response()->json(array(
+                    'message' => __('auth.failed'),
+                    'status' => false,
+                    "token_type" => "",
+                    "expires_in" => 0,
+                    "access_token" => "",
+                    "refresh_token" => ""
+                ), 200);
+                return response()->json(array(
+                    'message' => $e->getMessage(),
+                    'status' => false,
+                    "token_type" => "",
+                    "expires_in" => 0,
+                    "access_token" => "",
+                    "refresh_token" => ""
+                ), 200);
+            }
+            else return array(
+                'message'=>__('auth.failed'),
+                'status'=>false
+            );
+        }
+        return array(
+                'message'=>__('auth.login_success'),
+                'status'=>true,
+//                'user'=>new UserResource($user),
+//                'permissions'=>$user->getAllPermissions()->pluck('name'),
+//                'stores'=>StoreResource::collection($user->stores)
+            )+json_decode((string) $response->getBody(), true);
+    }
+    public function resetPassword(Request $request){
+        $this->validate($request, [
+            'phone'=> ['required', 'string', 'exists:users,phone'],
+            'password'=>['required', 'string']
+        ]);
+        /* @var $user User */
+        $user = User::where('phone', '=', $request->get('phone'))->first();
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
     }
 }
